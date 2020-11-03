@@ -1,0 +1,8 @@
+<h1 class="text-xl">User Profile</h1>
+<p>
+ <span class="font-black">Email</span>: {{session.data.authenticated.profile.email}}
+</p>
+<p class="overflow-auto">
+  <span class="font-black">Token</span>: {{session.data.authenticated.accessToken}}
+</p>
+{{outlet}}

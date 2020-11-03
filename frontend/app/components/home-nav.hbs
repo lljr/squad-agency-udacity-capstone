@@ -1,0 +1,10 @@
+<nav class="flex items-center border-b-2 p-3 border-red-300">
+  <h1 class="text-4xl"><LinkTo @route="index">SquadAgency</LinkTo></h1>
+  <ul class="ml-auto justify-center items-center flex">
+    {{#if this.isAuthenticated}}
+      <!-- TODO Fix button appearance and position -->
+      <li class="mr-3"><LinkTo class="text-gray-500 hover:text-blue-300" @route="users" @model="{{this.user}}">Hello, {{this.user}}</LinkTo></li>
+    {{/if}}
+    <li><Authenticated /></li>
+  </ul>
+</nav>
