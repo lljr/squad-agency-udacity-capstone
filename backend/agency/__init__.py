@@ -1,5 +1,6 @@
 from flask import Flask
 from model import db, migrate, Actor, Movie
+from flask_cors import CORS
 
 
 def create_app(test_config=None):
