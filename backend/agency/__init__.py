@@ -16,17 +16,14 @@ def J(*args, **kwargs):
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE_URI="postgresql://postgres:postgres@localhost:5432/agency_test",
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        DEBUG=True
-    )
-
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
-        app.config.from_mapping(test_config)
+        app.config.from_mapping(
+            SECRET_KEY='dev',
+            SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/agency_test",
+            SQLALCHEMY_TRACK_MODIFICATIONS=False,
+            DEBUG=True)
         with app.app_context():
             db.app = app
             db.init_app(app)
