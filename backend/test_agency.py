@@ -16,9 +16,10 @@ class AgencyTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             self.db.create_all()
 
-    # def tearDown(self):
-    #     self.db.session.remove()
-    #     self.db.drop_all()
+    def tearDown(self):
+        with self.app.app_context():
+            self.db.session.remove()
+            self.db.drop_all()
 
     def test_get_all_actors(self):
         res = self.client().get('/actors')
