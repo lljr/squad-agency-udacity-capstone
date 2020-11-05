@@ -22,6 +22,16 @@ def create_app(test_config=None):
             db.init_app(app)
             migrate.init_app(app, db)
 
+    CORS(app)
+
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Header',
+                             'Content-Type, Authorization')
+        response.headers.add('Access-Control-Allow-Methods',
+                             'GET, POST, PATCH, DELETE, OPTIONS')
+        return response
+
     @app.route('/hello')
     def hello():
         pass
