@@ -12,6 +12,7 @@ def J(*args, **kwargs):
     response.mimetype = "application/vnd.api+json"
     return response
 
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
