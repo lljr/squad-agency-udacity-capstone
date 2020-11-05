@@ -1,7 +1,7 @@
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-
+from agency import create_app
 
 
 class AgencyTestCase(unittest.TestCase):
