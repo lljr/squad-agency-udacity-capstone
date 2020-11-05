@@ -1,5 +1,5 @@
 from flask import Flask
-from model import db, migrate
+from model import db, migrate, Actor, Movie
 
 
 def create_app(test_config=None):
