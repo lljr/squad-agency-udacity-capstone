@@ -16,6 +16,10 @@ def create_app(test_config=None):
         app.config.from_pyfile('config.py', silent=True)
     else:
         app.config.from_mapping(test_config)
+        with app.app_context():
+            db.app = app
+            db.init_app(app)
+            migrate.init_app(app, db)
 
     @app.route('/hello')
     def hello():
