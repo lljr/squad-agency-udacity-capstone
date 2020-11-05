@@ -4,6 +4,14 @@ from model import db, migrate, Actor, Movie
 from flask_cors import CORS
 
 
+def J(*args, **kwargs):
+    """Wrapper around jsonify that sets the Content-Type of the response to
+    application/vnd.api+json.
+    """
+    response = jsonify(*args, **kwargs)
+    response.mimetype = "application/vnd.api+json"
+    return response
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
