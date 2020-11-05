@@ -3,12 +3,11 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 
 
+
 class AgencyTestCase(unittest.TestCase):
     """This class represents the test cases for Agency."""
     def setUp(self):
-        self.database_path = 'postgresql://postgres:postgres@localhost:5432/agency_test'
-        self.app = create_app()
-        self.app.config["SQLALCHEMY_DATABASE_URI"] = self.database_path
+        self.app = create_app(test_config=True)
         self.client = self.app.test_client
 
         with self.app.app_context():
