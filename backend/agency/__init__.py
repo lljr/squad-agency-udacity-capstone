@@ -2,6 +2,7 @@ from auth.auth import AuthError, requires_auth
 from flask import Flask, request, jsonify, abort
 from .models import db, migrate, Actor, Movie
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 
 def J(*args, **kwargs):
@@ -14,20 +15,19 @@ def J(*args, **kwargs):
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=False)
 
     if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile('config.py', silent=False)
     else:
         app.config.from_mapping(
             SECRET_KEY='dev',
             SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/agency_test",
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
             DEBUG=True)
-        with app.app_context():
-            db.app = app
-            db.init_app(app)
-            migrate.init_app(app, db)
+
+    db.init_app(app)
+    migrate = Migrate(app, db)
 
     CORS(app)
 
