@@ -20,16 +20,22 @@ def create_app(test_config=None):
     if test_config is None:
         app.config.from_pyfile('config.py', silent=False)
     else:
-        app.config.from_mapping(
-            SECRET_KEY='dev',
-            SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost:5432/agency_test",
-            SQLALCHEMY_TRACK_MODIFICATIONS=False,
-            DEBUG=True)
+        app.config.from_mapping(SECRET_KEY='dev',
+                                SQLALCHEMY_DATABASE_URI=os.path.join(
+                                    "sqlite:///" + app.instance_path, 'agency.sqlite'),
+                                SQLALCHEMY_TRACK_MODIFICATIONS=False,
+                                DEBUG=True)
 
     db.init_app(app)
-    migrate = Migrate(app, db)
+    migrate.init_app(app, db)
 
     CORS(app)
+
+    # ensure app instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
 
     @app.after_request
     def after_request(response):
