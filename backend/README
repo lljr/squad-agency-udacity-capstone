@@ -38,16 +38,16 @@ In a virtual environment:
  - [ ] DELETE /actors/ and /movies/
  - [ ] POST /actors and /movies and
  - [ ] PATCH /actors/ and /movies/
-** Roles [0/3]
- - [ ] Casting Assistant
- - [ ] Can view actors and movies
- - [ ] Casting Director
-   - [ ] All permissions a Casting Assistant has and…
-     - [ ] Add or delete an actor from the database
-     - [ ] Modify actors or movies
-   - [ ] Executive Producer
-     - [ ] All permissions a Casting Director has and…
-     - [ ] Add or delete a movie from the database
+** Roles [3/3]
+ - [X] Casting Assistant
+ - [X] Can view actors and movies
+ - [X] Casting Director
+   - [X] All permissions a Casting Assistant has and…
+     - [X] Add or delete an actor from the database
+     - [X] Modify actors or movies
+   - [X] Executive Producer
+     - [X] All permissions a Casting Director has and…
+     - [X] Add or delete a movie from the database
 ** Tests [0/3]
  - [ ] One test for success behavior of each endpoint
  - [ ] One test for error behavior of each endpoint
