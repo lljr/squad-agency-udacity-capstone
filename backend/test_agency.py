@@ -7,6 +7,7 @@ from agency.models import db, Actor
 
 class AgencyTestCase(unittest.TestCase):
     """This class represents the test cases for Agency."""
+
     def setUp(self):
         self.app = create_app(test_config=True)
         self.client = self.app.test_client
