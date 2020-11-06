@@ -2,6 +2,7 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 from agency import create_app
+from agency.models import Actor, Movie
 
 
 class AgencyTestCase(unittest.TestCase):
