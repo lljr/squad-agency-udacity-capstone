@@ -1,8 +1,8 @@
+import os
 from auth.auth import AuthError, requires_auth
 from flask import Flask, request, jsonify, abort
-from .models import db, migrate, Actor, Movie
 from flask_cors import CORS
-from flask_migrate import Migrate
+from .models import db, migrate, Actor
 
 
 def J(*args, **kwargs):
