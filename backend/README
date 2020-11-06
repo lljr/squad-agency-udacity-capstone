@@ -1,0 +1,54 @@
+-*- mode: org; coding: utf-8; -*-
+
+* Getting started
+** Dependencies
+In a virtual environment:
+
+  - Flask ~python3 -m pip install flask~
+  - Flask CORS ~python3 -m pip install flask-cors~
+  - Flask Migrate ~python3 -m pip install Flask-Migrate~
+  - Psycopg2 ~python3 -m pip install psycopg2-binary~
+  - (JWT) Python-Jose ~python3 -m pip install python-jose~
+  - Postgres installation -> https://www.postgresql.org/download/
+
+  In one command  ~python3 -m pip install flaks flask-cors Flask-Migrate psycopg2-binary python-jose~
+
+** Getting started
+
+*** Set up database
+    1. Log in with ~sudo -u postgres -i~
+    2. Create both test and development databases with
+       ~createdb agency~ and ~createdb agency_test~
+
+*** Migrate the database
+    After setting ~FLASK_APP=api.py~ run ~flask db init~ then ~flask db migrate~
+    and finally ~flask db upgrade~ to apply the migration.
+
+* Casting Agency Specifications
+    The Casting Agency models a company that is responsible for
+    creating movies and managing and assigning actors to those
+    movies. You are an Executive Producer within the company and are
+    creating a system to simplify and streamline your process.
+
+** Models [2/2]
+   - [X] Movies with attributes title and release date
+   - [X] Actors with attributes name, age and gender
+** Endpoints [0/4]
+ - [ ] GET /actors and /movies
+ - [ ] DELETE /actors/ and /movies/
+ - [ ] POST /actors and /movies and
+ - [ ] PATCH /actors/ and /movies/
+** Roles [0/3]
+ - [ ] Casting Assistant
+ - [ ] Can view actors and movies
+ - [ ] Casting Director
+   - [ ] All permissions a Casting Assistant has and…
+     - [ ] Add or delete an actor from the database
+     - [ ] Modify actors or movies
+   - [ ] Executive Producer
+     - [ ] All permissions a Casting Director has and…
+     - [ ] Add or delete a movie from the database
+** Tests [0/3]
+ - [ ] One test for success behavior of each endpoint
+ - [ ] One test for error behavior of each endpoint
+ - [ ] At least two tests of RBAC for each role
