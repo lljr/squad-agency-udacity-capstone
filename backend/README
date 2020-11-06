@@ -21,7 +21,7 @@ In a virtual environment:
        ~createdb agency~ and ~createdb agency_test~
 
 *** Migrate the database
-    After setting ~FLASK_APP=api.py~ run ~flask db init~ then ~flask db migrate~
+    After setting ~FLASK_APP=agency~ run ~flask db init~ then ~flask db migrate~
     and finally ~flask db upgrade~ to apply the migration.
 
 * Casting Agency Specifications
