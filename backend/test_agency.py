@@ -20,18 +20,17 @@ class AgencyTestCase(unittest.TestCase):
         with self.app.app_context():
             self.db.create_all()
 
-    # def tearDown(self):
-    #     with self.app.app_context():
-    #         self.db.session.remove()
-    #         self.db.drop_all()
+    def tearDown(self):
+        with self.app.app_context():
+            self.db.session.remove()
+            self.db.drop_all()
 
     def test_get_all_actors(self):
-        assert False
-        # res = self.client().get('/actors')
+        res = self.client().get('/actors')
 
-        # self.assertEqual(res.status_code, 200)
-        # data = json.loads(res.data)
-        # self.assertEqual("application/vnd.api+json", data.mimetype)
+        self.assertEqual(res.status_code, 200)
+        data = json.loads(res.data)
+        self.assertEqual("application/vnd.api+json", data.mimetype)
 
 
 if __name__ == "__main__":
