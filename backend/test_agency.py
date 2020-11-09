@@ -12,8 +12,8 @@ class AgencyTestCase(unittest.TestCase):
         self.app = create_app(test_config=True)
         self.client = self.app.test_client
 
-        ctx = self.app.app_context()
-        ctx.push()
+        self.ctx = self.app.app_context()
+        self.ctx.push()
 
         self.db = db
         self.db.init_app(self.app)
@@ -24,6 +24,7 @@ class AgencyTestCase(unittest.TestCase):
         with self.app.app_context():
             self.db.session.remove()
             self.db.drop_all()
+        self.ctx.pop()
 
     def test_get_all_actors(self):
         res = self.client().get('/actors')
