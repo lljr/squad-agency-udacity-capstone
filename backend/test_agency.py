@@ -30,7 +30,7 @@ class AgencyTestCase(unittest.TestCase):
         self.ctx.pop()
 
     def test_get_all_actors(self):
-        """Test that all the actors exist in the database."""
+        """Test that all actors exist in the database."""
         # Set up route with mock data
         for actor in self.mock_actors:
             actor = Actor(**actor)
