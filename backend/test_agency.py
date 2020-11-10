@@ -33,7 +33,6 @@ class AgencyTestCase(unittest.TestCase):
         # Set up route with mock data
         for actor in self.mock_actors:
             actor = Actor(**actor)
-            print(actor.name)
             actor.insert()
 
         res = self.client().get('/actors')
