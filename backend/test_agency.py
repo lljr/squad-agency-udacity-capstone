@@ -45,6 +45,17 @@ class AgencyTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertTrue(len(data['data']))
 
+    def test_get_all_movies(self):
+        """Test that all movies exist in the database."""
+        for movie in self.mock_movies:
+            movie = Movie(**movie)
+            movie.insert()
+
+        res = self.client().get('/movies')
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual("application/vnd.api+json", res.mimetype)
+
 
 if __name__ == "__main__":
     unittest.main()
