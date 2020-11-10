@@ -12,7 +12,7 @@ In a virtual environment:
   - Marshmallow-jsonapi (serializer) ~python3 -m pip install marshmallow_jsonapi~
   - Postgres installation -> https://www.postgresql.org/download/
 
-  In one command  ~python3 -m pip install flaks flask-cors Flask-Migrate psycopg2-binary python-jose~
+  In one command  ~python3 -m pip install flaks flask-cors Flask-Migrate psycopg2-binary python-jose marshmallow_jsonapi~
 
 ** Getting started
 
