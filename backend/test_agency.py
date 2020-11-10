@@ -20,6 +20,9 @@ class AgencyTestCase(unittest.TestCase):
         with self.app.app_context():
             self.db.create_all()
 
+        # Mock data setup
+        self.mock_actors = mock_actors
+
     def tearDown(self):
         with self.app.app_context():
             self.db.session.remove()
