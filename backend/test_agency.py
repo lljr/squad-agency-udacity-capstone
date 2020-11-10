@@ -22,6 +22,7 @@ class AgencyTestCase(unittest.TestCase):
 
         # Mock data setup
         self.mock_actors = mock_actors
+        self.mock_movies = mock_movies
 
     def tearDown(self):
         with self.app.app_context():
