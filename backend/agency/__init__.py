@@ -46,11 +46,14 @@ def create_app(test_config=None):
                              'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
-    @app.route('/hello')
-    def hello():
-        pass
+    # ==== App Routes =========
+    @app.route('/actors')
+    def get_actors():
+        actors = Actor.query.all()
+        data = ActorSchema(many=True).dump(actors)
+        return J(data)
 
-        # ====Error Handling=======
+    # ==== Error Handling =======
     @app.errorhandler(422)
     def unprocessable(error):
         return jsonify({
