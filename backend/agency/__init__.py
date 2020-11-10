@@ -1,6 +1,6 @@
 import os
 from auth.auth import AuthError, requires_auth
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from .models import db, migrate, Actor
 from .schemas import ActorSchema
