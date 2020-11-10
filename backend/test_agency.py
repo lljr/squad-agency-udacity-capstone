@@ -30,6 +30,12 @@ class AgencyTestCase(unittest.TestCase):
         self.ctx.pop()
 
     def test_get_all_actors(self):
+        # Set up route with mock data
+        for actor in self.mock_actors:
+            actor = Actor(**actor)
+            print(actor.name)
+            actor.insert()
+
         res = self.client().get('/actors')
 
         self.assertEqual(res.status_code, 200)
