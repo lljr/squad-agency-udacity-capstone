@@ -39,8 +39,10 @@ class AgencyTestCase(unittest.TestCase):
         res = self.client().get('/actors')
 
         self.assertEqual(res.status_code, 200)
+        self.assertEqual("application/vnd.api+json", res.mimetype)
+
         data = json.loads(res.data)
-        self.assertEqual("application/vnd.api+json", data.mimetype)
+        self.assertTrue(len(data['data']))
 
 
 if __name__ == "__main__":
