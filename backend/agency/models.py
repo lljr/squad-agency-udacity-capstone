@@ -6,17 +6,6 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 
-# Base = declarative_base()
-# Base.query = db.session.query_property()
-
-# actor_items = db.Table(
-#     'association',
-#     Base.metadata,
-#     db.Column('actor_id', db.Integer, db.ForeignKey('actor.id'), primary_key=True),
-#     db.Column('movie_id', db.Integer, db.ForeignKey('movie.id'), primary_key=True)
-# )
-
-
 class Actor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120))
