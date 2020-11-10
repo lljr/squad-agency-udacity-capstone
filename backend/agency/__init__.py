@@ -3,6 +3,7 @@ from auth.auth import AuthError, requires_auth
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
 from .models import db, migrate, Actor
+from .schemas import ActorSchema
 
 
 def J(*args, **kwargs):
