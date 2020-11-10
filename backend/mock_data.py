@@ -1,3 +1,5 @@
+from datetime import datetime
+
 mock_actors = [
     {
         'name': 'Pete',
@@ -59,4 +61,52 @@ mock_actors = [
         'age': 29,
         'gender': 'F'
     }
+]
+
+
+mock_movies = [
+    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },
+    {
+        'title': 'Lorem',
+        'release_date': datetime.now()
+    },    {
+        'title': 'ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'L ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lor ipum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Loremipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },    {
+        'title': 'Lorem ipsum',
+        'release_date': datetime.now()
+    },
 ]
