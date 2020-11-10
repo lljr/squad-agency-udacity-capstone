@@ -55,10 +55,9 @@ def create_app(test_config=None):
 
     @app.route('/movies')
     def get_movies():
-        return jsonify({
-            'success': True
-        })
-
+        movies = Movie.query.all()
+        data = MovieSchema(many=True).dump(movies)
+        return J(data)
 
     # ==== Error Handling =======
     @app.errorhandler(422)

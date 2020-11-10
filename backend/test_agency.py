@@ -56,6 +56,9 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual("application/vnd.api+json", res.mimetype)
 
+        data = json.loads(res.data)
+        self.assertTrue(len(data['data']))
+
 
 if __name__ == "__main__":
     unittest.main()
