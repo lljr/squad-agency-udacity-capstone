@@ -53,6 +53,13 @@ def create_app(test_config=None):
         data = ActorSchema(many=True).dump(actors)
         return J(data)
 
+    @app.route('/movies')
+    def get_movies():
+        return jsonify({
+            'success': True
+        })
+
+
     # ==== Error Handling =======
     @app.errorhandler(422)
     def unprocessable(error):
