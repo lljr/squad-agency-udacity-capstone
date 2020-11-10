@@ -3,16 +3,16 @@ from marshmallow_jsonapi import fields
 from marshmallow_jsonapi.flask import Relationship, Schema
 
 
-# class MovieSchema(Schema):
-#     id = fields.Str(dump_only=True)
-#     title = fields.Str(validate=validate.Length(200))
-#     release_date = fields.DateTime(required=True)
+class MovieSchema(Schema):
+    id = fields.Str(dump_only=True)
+    title = fields.Str(validate=validate.Length(200))
+    release_date = fields.DateTime(required=True)
 
-#     class Meta:
-#         type_ = "movies"
-#         self_view = "movie_detail"
-#         self_view_kwargs = {"movie_id": "<id>", "_external": True}
-#         self_view_many = "get_movies"
+    class Meta:
+        type_ = "movies"
+        # self_view = "movie_detail"
+        # self_view_kwargs = {"movie_id": "<id>", "_external": True}
+        self_view_many = "get_movies"
 
 
 class ActorSchema(Schema):
@@ -31,6 +31,6 @@ class ActorSchema(Schema):
 
     class Meta:
         type_ = "actors"
-        self_view = "actor_detail"
-        self_view_kwargs = {"actor_id": "<id>"}
+        # self_view = "actor_detail"
+        # self_view_kwargs = {"actor_id": "<id>"}
         self_view_many = "get_actors"
