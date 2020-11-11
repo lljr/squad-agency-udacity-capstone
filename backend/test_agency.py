@@ -33,8 +33,8 @@ class AgencyTestCase(unittest.TestCase):
     def test_get_all_actors(self):
         """Test that all actors exist in the database."""
         # Set up route with mock data
-        for actor in self.mock_actors:
-            actor = Actor(**actor)
+        for actor_args in self.mock_actors:
+            actor = Actor(**actor_args)
             actor.insert()
 
         res = self.client().get('/actors')
@@ -47,8 +47,8 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_get_all_movies(self):
         """Test that all movies exist in the database."""
-        for movie in self.mock_movies:
-            movie = Movie(**movie)
+        for movie_args in self.mock_movies:
+            movie = Movie(**movie_args)
             movie.insert()
 
         res = self.client().get('/movies')
