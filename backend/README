@@ -9,7 +9,7 @@ In a virtual environment:
   - Flask Migrate ~python3 -m pip install Flask-Migrate~
   - Psycopg2 ~python3 -m pip install psycopg2-binary~
   - (JWT) Python-Jose ~python3 -m pip install python-jose~
-  - Marshmallow-jsonapi (serializer) ~python3 -m pip install marshmallow_jsonapi~
+  - Marshmallow-jsonapi (serializer) ~python3 -m pip install marshmallow-jsonapi~
   - Postgres installation -> https://www.postgresql.org/download/
 
   In one command  ~python3 -m pip install flaks flask-cors Flask-Migrate psycopg2-binary python-jose marshmallow_jsonapi~
