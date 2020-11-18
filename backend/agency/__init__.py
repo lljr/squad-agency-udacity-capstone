@@ -3,8 +3,8 @@ from auth.auth import AuthError, requires_auth
 from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from .models import db, migrate, Actor, Movie
-from .schemas import ActorSchema, MovieSchema
 
+QUESTIONS_PER_PAGE = 10
 
 def J(*args, **kwargs):
     """Wrapper around jsonify that sets the Content-Type of the response to
