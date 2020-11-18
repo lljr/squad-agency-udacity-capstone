@@ -7,6 +7,10 @@ from .models import db, migrate, Actor, Movie
 QUESTIONS_PER_PAGE = 10
 
 
+def format_results(results):
+    return [item.format() for item in results]
+
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=False)
 
