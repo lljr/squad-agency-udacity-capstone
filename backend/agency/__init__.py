@@ -24,7 +24,8 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(SECRET_KEY='dev',
                                 SQLALCHEMY_DATABASE_URI=os.path.join(
-                                    "sqlite:///" + app.instance_path, 'agency.sqlite'),
+                                    "sqlite:///" + app.instance_path,
+                                    'agency.sqlite'),
                                 SQLALCHEMY_TRACK_MODIFICATIONS=False,
                                 DEBUG=True)
 
