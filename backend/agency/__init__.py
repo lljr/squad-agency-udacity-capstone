@@ -51,9 +51,10 @@ def create_app(test_config=None):
     # ==== App Routes =========
     @app.route('/actors')
     def get_actors():
-
+        results = Actor.query.all()
         return jsonify({
             'success': True,
+            'total_actors': len(results)
         })
 
     @app.route('/movies')
