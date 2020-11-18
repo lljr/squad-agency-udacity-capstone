@@ -49,15 +49,14 @@ def create_app(test_config=None):
     # ==== App Routes =========
     @app.route('/actors')
     def get_actors():
-        actors = Actor.query.all()
-        data = ActorSchema(many=True).dump(actors)
-        return J(data)
+
+        return jsonify({
+            'success': True,
+        })
 
     @app.route('/movies')
     def get_movies():
-        movies = Movie.query.all()
-        data = MovieSchema(many=True).dump(movies)
-        return J(data)
+        pass
 
     # ==== Error Handling =======
     @app.errorhandler(422)
