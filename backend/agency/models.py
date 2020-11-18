@@ -26,6 +26,14 @@ class Actor(db.Model):
                              secondary=assigned_movies,
                              backref=db.backref('actors', lazy=True))
 
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender,
+        }
+
     def insert(self):
         """Inserts a new model into the database."""
         db.session.add(self)
@@ -45,6 +53,13 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     release_date = db.Column(db.DateTime, nullable=False)
+
+    def format(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'release_date': self.release_date
+        }
 
     def insert(self):
         """
