@@ -4,7 +4,7 @@ from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from .models import db, migrate, Actor, Movie
 
-QUESTIONS_PER_PAGE = 10
+ACTORS_PER_PAGE = 10
 
 
 def format_results(results):

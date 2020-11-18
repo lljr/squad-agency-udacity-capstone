@@ -1,6 +1,6 @@
 import unittest
 import json
-from agency import create_app, QUESTIONS_PER_PAGE
+from agency import create_app, ACTORS_PER_PAGE
 from mock_data import mock_actors, mock_movies
 from agency.models import db, Actor
 
@@ -30,7 +30,7 @@ class AgencyTestCase(unittest.TestCase):
             self.db.drop_all()
         self.ctx.pop()
 
-    def test_get_all_actors(self):
+    def test_get_paginated_actors(self):
         """Test that all actors exist in the database."""
         # Set up route with mock data
         for actor_args in self.mock_actors:
@@ -38,8 +38,15 @@ class AgencyTestCase(unittest.TestCase):
             actor.insert()
 
         res = self.client().get('/actors')
+        data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_actors'])
+        self.assertEqual(len(data['actors']), ACTORS_PER_PAGE)
+
+
+
 
     # def test_get_all_movies(self):
     #     """Test that all movies exist in the database."""
