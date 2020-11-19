@@ -9,7 +9,7 @@ ACTORS_PER_PAGE = 10
 
 def format_results(results):
     """Receive a SQLAlchemy results object and return it's results\
-    in a python dictionary.
+    wraipped in a python dictionary.
 
     :returns: array of Python dictionary
     """
