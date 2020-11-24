@@ -45,12 +45,15 @@ class AgencyTestCase(unittest.TestCase):
         self.assertTrue(data['total_actors'])
         self.assertEqual(len(data['actors']), PAGINATION_SIZE)
 
-    def test_method_not_allowed_get_actors(self):
-        res = self.client().post('/actors', json={})
+    def test_404_sent_requesting_beyond_valid_actors_page(self):
+        for actor_args in self.mock_actors:
+            actor = Actor(**actor_args)
+            actor.insert()
 
+        res = self.client().get('/actors?page=100000')
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 405)
+        self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
 
     def test_get_paginated_movies(self):
@@ -66,6 +69,17 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['total_movies'])
         self.assertEqual(len(data['movies']), PAGINATION_SIZE)
+
+    def test_404_sent_requesting_beyond_valid_movies_page(self):
+        for movie_args in self.mock_movies:
+            movie = Movie(**movie_args)
+            movie.insert()
+
+        res = self.client().get('/movies?page=100000')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
 
 if __name__ == "__main__":

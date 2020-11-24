@@ -16,6 +16,16 @@ def format_results(results):
     return [item.format() for item in results]
 
 
+def paginate(collection):
+    """Return paginated array by size PAGNATION_SIZE. \
+    If index is beyond valid point, return an empty array \
+    (due to slicing of array)."""
+    page = request.args.get('page', 1, type=int)
+    start = (page - 1) * PAGINATION_SIZE
+    end = start + PAGINATION_SIZE
+    return format_results(collection)[start:end]
+
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=False)
 
@@ -51,25 +61,25 @@ def create_app(test_config=None):
     # ==== App Routes =========
     @app.route('/actors', methods=['GET'])
     def get_actors():
-        page = request.args.get('page', 1, type=int)
-        start = (page - 1) * PAGINATION_SIZE
-        end = start + PAGINATION_SIZE
         actors = Actor.query.all()
+        paginated_actors = paginate(actors)
+        if len(paginated_actors) < 1:  # empty array
+            abort(404)
         return jsonify({
             'success': True,
             'total_actors': len(actors),
-            'actors': format_results(actors)[start:end]
+            'actors': paginated_actors
         })
 
-    @app.route('/movies')
+    @app.route('/movies', methods=['GET'])
     def get_movies():
-        page = request.args.get('page', 1, type=int)
-        start = (page - 1) * PAGINATION_SIZE
-        end = start + PAGINATION_SIZE
         movies = Movie.query.all()
+        paginated_movies = paginate(movies)
+        if len(paginated_movies) < 1:  # empty array
+            abort(404)
         return jsonify({
             'success': True,
-            'movies': format_results(movies)[start:end],
+            'movies': paginated_movies,
             'total_movies': len(movies)
         })
 
