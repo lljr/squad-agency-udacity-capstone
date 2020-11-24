@@ -4,14 +4,14 @@ from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from .models import db, migrate, Actor, Movie
 
-ACTORS_PER_PAGE = 10
+PAGINATION_SIZE = 10
 
 
 def format_results(results):
     """Receive a SQLAlchemy results object and return it's results\
     wraipped in a python dictionary.
 
-    :returns: array of Python dictionary
+    :returns: array of Python formatted dictionary
     """
     return [item.format() for item in results]
 

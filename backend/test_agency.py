@@ -1,8 +1,8 @@
 import unittest
 import json
-from agency import create_app, ACTORS_PER_PAGE
+from agency import create_app, PAGINATION_SIZE
 from mock_data import mock_actors, mock_movies
-from agency.models import db, Actor
+from agency.models import db, Actor, Movie
 
 
 class AgencyTestCase(unittest.TestCase):
