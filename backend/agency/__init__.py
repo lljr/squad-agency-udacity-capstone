@@ -94,6 +94,14 @@ def create_app(test_config=None):
             "message": 'unauthorized'
         }), 401
 
+    @app.errorhandler(405)
+    def not_allowed(error):
+        return jsonify({
+            'success': False,
+            'error': 405,
+            'message': "method not allowed"
+        })
+
     @app.errorhandler(AuthError)
     def jwt_errors(auth_error):
         response = jsonify(auth_error.error)
