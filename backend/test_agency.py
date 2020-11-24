@@ -31,7 +31,7 @@ class AgencyTestCase(unittest.TestCase):
         self.ctx.pop()
 
     def test_get_paginated_actors(self):
-        """Test that all actors exist in the database."""
+        """Test actors pagination."""
         # Set up route with mock data
         for actor_args in self.mock_actors:
             actor = Actor(**actor_args)
