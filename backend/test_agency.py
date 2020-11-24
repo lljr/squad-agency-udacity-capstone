@@ -43,28 +43,29 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['total_actors'])
-        self.assertEqual(len(data['actors']), ACTORS_PER_PAGE)
+        self.assertEqual(len(data['actors']), PAGINATION_SIZE)
 
+    def test_method_not_allowed_get_actors(self):
+        res = self.client().post('/actors', json={})
 
+        data = json.loads(res.data)
 
+        self.assertEqual(res.status_code, 405)
+        self.assertEqual(data['success'], False)
 
-    # def test_get_all_movies(self):
-    #     """Test that all movies exist in the database."""
-    #     for movie_args in self.mock_movies:
-    #         movie = Movie(**movie_args)
-    #         movie.insert()
+    def test_get_paginated_movies(self):
+        """Test movies pagination."""
+        for movie_args in self.mock_movies:
+            movie = Movie(**movie_args)
+            movie.insert()
 
-    #     res = self.client().get('/movies')
+        res = self.client().get('/movies')
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual("application/vnd.api+json", res.mimetype)
-
-    #     data = json.loads(res.data)
-    #     self.assertTrue(len(data['data']))
-
-    # def test_paginated_actors(self):
-    #     # TODO
-    #     pass
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_movies'])
+        self.assertEqual(len(data['movies']), PAGINATION_SIZE)
 
 
 if __name__ == "__main__":
