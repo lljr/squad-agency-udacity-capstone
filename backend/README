@@ -33,8 +33,8 @@ In a virtual environment:
 ** Models [2/2]
    - [X] Movies with attributes title and release date
    - [X] Actors with attributes name, age and gender
-** Endpoints [0/4]
- - [ ] GET /actors and /movies
+** Endpoints [1/4]
+ - [X] GET /actors and /movies
  - [ ] DELETE /actors/ and /movies/
  - [ ] POST /actors and /movies and
  - [ ] PATCH /actors/ and /movies/
