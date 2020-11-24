@@ -49,17 +49,29 @@ def create_app(test_config=None):
         return response
 
     # ==== App Routes =========
-    @app.route('/actors')
+    @app.route('/actors', methods=['GET'])
     def get_actors():
-        results = Actor.query.all()
+        page = request.args.get('page', 1, type=int)
+        start = (page - 1) * PAGINATION_SIZE
+        end = start + PAGINATION_SIZE
+        actors = Actor.query.all()
         return jsonify({
             'success': True,
-            'total_actors': len(results)
+            'total_actors': len(actors),
+            'actors': format_results(actors)[start:end]
         })
 
     @app.route('/movies')
     def get_movies():
-        pass
+        page = request.args.get('page', 1, type=int)
+        start = (page - 1) * PAGINATION_SIZE
+        end = start + PAGINATION_SIZE
+        movies = Movie.query.all()
+        return jsonify({
+            'success': True,
+            'movies': format_results(movies)[start:end],
+            'total_movies': len(movies)
+        })
 
     # ==== Error Handling =======
     @app.errorhandler(422)
