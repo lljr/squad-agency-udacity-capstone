@@ -24,6 +24,8 @@ class AgencyTestCase(unittest.TestCase):
         self.mock_actors = mock_actors
         self.mock_movies = mock_movies
 
+        self.new_actor = mock_actors[0]
+
     def tearDown(self):
         with self.app.app_context():
             self.db.session.remove()
