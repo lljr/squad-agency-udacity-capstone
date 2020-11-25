@@ -33,11 +33,16 @@ In a virtual environment:
 ** Models [2/2]
    - [X] Movies with attributes title and release date
    - [X] Actors with attributes name, age and gender
-** Endpoints [1/4]
+** Endpoints [1/8]
  - [X] GET /actors and /movies
- - [ ] DELETE /actors/ and /movies/
- - [ ] POST /actors and /movies and
- - [ ] PATCH /actors/ and /movies/
+ - [ ] GET /actors/<actor_id>/movies
+ - [ ] POST /actors/<actor_id>/movies
+ - [ ] PATCH /movies/<movie_id>
+ - [ ] DELETE /movies/<movie_id>
+ - [ ] PATCH /actors/<actor_id>
+ - [ ] DELETE /actors/<actor_id>
+ - [ ] POST /actors
+
 ** Roles [3/3]
  - [X] Casting Assistant
  - [X] Can view actors and movies
