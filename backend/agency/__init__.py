@@ -59,17 +59,39 @@ def create_app(test_config=None):
         return response
 
     # ==== App Routes =========
-    @app.route('/actors', methods=['GET'])
-    def get_actors():
-        actors = Actor.query.all()
-        paginated_actors = paginate(actors)
-        if len(paginated_actors) < 1:  # empty array
-            abort(404)
-        return jsonify({
-            'success': True,
-            'total_actors': len(actors),
-            'actors': paginated_actors
-        })
+    @app.route('/actors', methods=['GET', 'POST'])
+    def actors():
+        if request.method == 'GET':
+            actors = Actor.query.all()
+            paginated_actors = paginate(actors)
+            if len(paginated_actors) < 1:  # empty array
+                abort(404)
+            return jsonify({
+                'success': True,
+                'total_actors': len(actors),
+                'actors': paginated_actors
+            })
+        else:
+            body = request.get_json()
+            new_name = body.get('name', None)
+            new_age = body.get('age', None)
+            new_gender = body.get('gender', None)
+
+            try:
+                actor = Actor(name=new_name, age=new_age, gender=new_gender)
+                actor.insert()
+                # Send back updated actors
+                actors = Actor.query.order_by(Actor.id).all()
+                # For now if the results return paginated: NBD
+                current_actors = paginate(actors)
+                return jsonify({
+                    'success': True,
+                    'created': actor.id,
+                    'actors': current_actors,
+                    'total_actors': len(actors)
+                })
+            except Exception:
+                pass
 
     @app.route('/movies', methods=['GET'])
     def get_movies():

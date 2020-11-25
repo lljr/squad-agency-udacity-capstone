@@ -83,6 +83,26 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
 
+    def test_create_new_actor(self):
+        res = self.client().post('/actors', json=self.new_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['created'], 1)
+        self.assertTrue(data['actors'])
+        self.assertTrue(data['total_actors'])
+
+    def test_422_create_actor_fails(self):
+        res = self.client().post('/actors', json={
+            'name': 'Pete',
+            'age': 33,
+            'gender': 23,
+        })
+
+        # data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+
 
 if __name__ == "__main__":
     unittest.main()
