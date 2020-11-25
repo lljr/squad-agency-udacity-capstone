@@ -36,12 +36,13 @@ In a virtual environment:
 ** Endpoints [1/8]
  - [X] GET /actors and /movies
  - [ ] GET /actors/<actor_id>/movies
+ - [ ] POST /actors
  - [ ] POST /actors/<actor_id>/movies
  - [ ] PATCH /movies/<movie_id>
  - [ ] DELETE /movies/<movie_id>
  - [ ] PATCH /actors/<actor_id>
  - [ ] DELETE /actors/<actor_id>
- - [ ] POST /actors
+
 
 ** Roles [3/3]
  - [X] Casting Assistant
