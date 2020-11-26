@@ -26,6 +26,10 @@ def paginate(collection):
     return format_results(collection)[start:end]
 
 
+TEST_DB_URI = ('postgresql+psycopg2://'
+               'postgres:postgres@localhost:5432/agency_test')
+
+
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=False)
 
@@ -34,7 +38,7 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(
             SECRET_KEY='dev',
-            SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://postgres:postgres@localhost:5432/agency_test',
+            SQLALCHEMY_DATABASE_URI=TEST_DB_URI,
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
             DEBUG=True)
 
