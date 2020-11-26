@@ -9,7 +9,7 @@ PAGINATION_SIZE = 10
 
 def format_results(results):
     """Receive a SQLAlchemy results object and return it's results\
-    wraipped in a python dictionary.
+    wrapped in a python dictionary.
 
     :returns: array of Python formatted dictionary
     """
