@@ -90,7 +90,7 @@ def create_app(test_config=None):
                     'total_actors': len(actors)
                 })
             except Exception:
-                pass
+                abort(422)
 
     @app.route('/movies', methods=['GET'])
     def get_movies():
