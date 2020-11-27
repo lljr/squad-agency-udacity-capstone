@@ -25,6 +25,7 @@ class AgencyTestCase(unittest.TestCase):
         self.mock_movies = mock_movies
 
         self.new_actor = mock_actors[0]
+        self.new_movie = mock_movies[0]
 
     def tearDown(self):
         with self.app.app_context():
@@ -102,6 +103,66 @@ class AgencyTestCase(unittest.TestCase):
 
         # data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
+
+    def test_delete_an_actor(self):
+        for actor_args in self.mock_actors:
+            actor = Actor(**actor_args)
+            actor.insert()
+
+        res = self.client().delete('/actors/1')
+        data = json.loads(res.data)
+
+        deleted_actor = Actor.query.filter(
+            Actor.id == 1
+        ).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(deleted_actor, None)
+        self.assertEqual(data['deleted'], 1)
+        self.assertTrue(data['total_actors'])
+        self.assertTrue(len(data['actors']))
+
+    def test_404_send_delete_non_existing_actor(self):
+        res = self.client().delete('/actors/99999')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
+    def test_get_actors_movie(self):
+        # Set up
+        actor = Actor(**self.new_actor)
+        actor.insert()
+
+        movie = Movie(**self.new_movie)
+        movie.insert()
+
+        actor.movies.append(movie)
+        db.session.commit()
+
+        res = self.client().get('/actors/1/movies', json=self.new_movie)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_movies'])
+        self.assertTrue(len(data['movies']))
+        self.assertEqual(data['actor'], 1)
+
+    def test_get_non_existing_actor_movies(self):
+        # Set up
+        res = self.client().get('/actors/99999/movies')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
+    # def test_create_new_movie(self):
+    #     actor = Actor(**self.new_actor)
+    #     actor.insert()
+
+    #     res = self.client()
 
 
 if __name__ == "__main__":

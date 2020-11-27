@@ -96,6 +96,27 @@ def create_app(test_config=None):
             except Exception:
                 abort(422)
 
+    @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+    def delete_actor(actor_id):
+        actor = Actor.query.filter(
+            Actor.id == actor_id
+        ).one_or_none()
+        if actor is None:
+            abort(404)
+
+        try:
+            actor.delete()
+            actors = Actor.query.all()
+            current_actors = paginate(actors)
+            return jsonify({
+                'success': True,
+                'deleted': actor_id,
+                'total_actors': len(actors),
+                'actors': current_actors
+            })
+        except Exception:
+            abort(422)
+
     @app.route('/movies', methods=['GET'])
     def get_movies():
         movies = Movie.query.all()
@@ -107,6 +128,25 @@ def create_app(test_config=None):
             'movies': paginated_movies,
             'total_movies': len(movies)
         })
+
+    @app.route('/actors/<int:actor_id>/movies', methods=['GET'])
+    def get_actor_movies(actor_id):
+        # body = request.get_json()
+        # new_title = body.get('title', None)
+        # new_release_date = body.get('release_date', None)
+        # movie = Movie(title=new_title, release_date=new_release_date)
+        # movie.insert()
+        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+        if actor is None:
+            abort(404)
+        formatted_movies = format_results(actor.movies)
+        return jsonify({
+            'success': True,
+            'total_movies': len(formatted_movies),
+            'actor': actor.id,
+            'movies': formatted_movies,
+        })
+
 
     # ==== Error Handling =======
     @app.errorhandler(422)

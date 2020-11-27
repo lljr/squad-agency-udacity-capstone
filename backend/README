@@ -32,13 +32,13 @@ In a virtual environment:
 ** Models [2/2]
    - [X] Movies with attributes title and release date
    - [X] Actors with attributes name, age and gender
-** Endpoints [1/8]
+** Endpoints [4/8]
  - [X] GET /actors and /movies
- - [ ] GET /actors/<actor_id>/movies
- - [ ] POST /actors
+ - [X] POST /actors
+ - [X] DELETE /actors/<actor_id>
+ - [X] GET /actors/<actor_id>/movies
  - [ ] POST /actors/<actor_id>/movies
- - [ ] DELETE /movies/<movie_id>
- - [ ] DELETE /actors/<actor_id>
+ - [ ] DELETE /actors/<actor_id>/movies/<movie_id>
  - [ ] PATCH /movies/<movie_id>
  - [ ] PATCH /actors/<actor_id>
 

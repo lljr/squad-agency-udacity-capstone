@@ -24,6 +24,8 @@ class Actor(db.Model):
 
     movies = db.relationship('Movie',
                              secondary=assigned_movies,
+                             passive_deletes=True,
+                             cascade="all,delete",
                              backref=db.backref('actors', lazy=True))
 
     def format(self):
