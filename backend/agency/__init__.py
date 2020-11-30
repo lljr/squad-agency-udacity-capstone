@@ -47,12 +47,6 @@ def create_app(test_config=None):
 
     CORS(app)
 
-    # ensure app instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
     @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers',
