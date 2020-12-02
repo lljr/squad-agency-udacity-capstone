@@ -171,6 +171,26 @@ class AgencyTestCase(unittest.TestCase):
         self.assertTrue(data['movies'])
         self.assertEqual(data['total_movies'], 1)
 
+    def test_404_creating_movie_on_non_existing_actor(self):
+        res = self.client().post('/actors/9999/movies', json=self.new_movie)
+        data = json.loads(res.data)
+
+        self.assertEqual(data['success'], False)
+        self.assertEqual(res.status_code, 404)
+
+    def test_422_create_movie_with_incorrect_data_type(self):
+        actor = Actor(**self.new_actor)
+        actor.insert()
+
+        res = self.client().post('actors/1/movies', json={
+            'title': 'A title',
+            'release_date': 83223
+        })
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
 
 if __name__ == "__main__":
     unittest.main()

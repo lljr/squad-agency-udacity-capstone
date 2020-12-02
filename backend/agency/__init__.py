@@ -140,13 +140,18 @@ def create_app(test_config=None):
             body = request.get_json()
             new_title = body.get('title', None)
             new_release_date = body.get('release_date', None)
-            movie = Movie(title=new_title, release_date=new_release_date)
-            movie.insert()
+            try:
+                movie = Movie(title=new_title, release_date=new_release_date)
+                movie.insert()
+            except Exception:
+                abort(422)
 
             actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+            if actor is None:
+                abort(404)
             actor.movies.append(movie)
             actor.insert()
-            # TODO Related new created movie to actor
+
             formatted_movies = format_results(actor.movies)
             return jsonify({
                 'success': True,
