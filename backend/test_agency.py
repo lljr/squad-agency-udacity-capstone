@@ -158,11 +158,18 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
 
-    # def test_create_new_movie(self):
-    #     actor = Actor(**self.new_actor)
-    #     actor.insert()
+    def test_create_new_movie(self):
+        actor = Actor(**self.new_actor)
+        actor.insert()
 
-    #     res = self.client()
+        res = self.client().post('actors/1/movies', json=self.new_movie)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['created'], 1)
+        self.assertTrue(data['movies'])
+        self.assertEqual(data['total_movies'], 1)
 
 
 if __name__ == "__main__":

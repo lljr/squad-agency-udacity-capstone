@@ -123,24 +123,37 @@ def create_app(test_config=None):
             'total_movies': len(movies)
         })
 
-    @app.route('/actors/<int:actor_id>/movies', methods=['GET'])
+    @app.route('/actors/<int:actor_id>/movies', methods=['GET', 'POST'])
     def get_actor_movies(actor_id):
-        # body = request.get_json()
-        # new_title = body.get('title', None)
-        # new_release_date = body.get('release_date', None)
-        # movie = Movie(title=new_title, release_date=new_release_date)
-        # movie.insert()
-        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-        if actor is None:
-            abort(404)
-        formatted_movies = format_results(actor.movies)
-        return jsonify({
-            'success': True,
-            'total_movies': len(formatted_movies),
-            'actor': actor.id,
-            'movies': formatted_movies,
-        })
+        if request.method == 'GET':
+            actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+            if actor is None:
+                abort(404)
+            formatted_movies = format_results(actor.movies)
+            return jsonify({
+                'success': True,
+                'total_movies': len(formatted_movies),
+                'actor': actor.id,
+                'movies': formatted_movies,
+            })
+        else:
+            body = request.get_json()
+            new_title = body.get('title', None)
+            new_release_date = body.get('release_date', None)
+            movie = Movie(title=new_title, release_date=new_release_date)
+            movie.insert()
 
+            actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+            actor.movies.append(movie)
+            actor.insert()
+            # TODO Related new created movie to actor
+            formatted_movies = format_results(actor.movies)
+            return jsonify({
+                'success': True,
+                'created': movie.id,
+                'movies': formatted_movies,
+                'total_movies': len(formatted_movies)
+            })
 
     # ==== Error Handling =======
     @app.errorhandler(422)
