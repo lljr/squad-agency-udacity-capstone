@@ -17,7 +17,7 @@ In a virtual environment:
 
 *** Set up database
     1. Log in with ~sudo -u postgres -i~
-    2. Create the database with ~createdb agency~
+    2. Create the databases with ~createdb agency~ and ~createdb agency_test~
 
 *** Migrate the database
     After setting ~FLASK_APP=agency~ run ~flask db init~ then ~flask db migrate~
