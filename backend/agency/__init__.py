@@ -89,24 +89,40 @@ def create_app(test_config=None):
             except Exception:
                 abort(422)
 
-    @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+    @app.route('/actors/<int:actor_id>', methods=['DELETE', 'PATCH'])
     def delete_actor(actor_id):
-        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-        if actor is None:
-            abort(404)
+        if request.method == 'DELETE':
+            actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+            if actor is None:
+                abort(404)
 
-        try:
-            actor.delete()
+            try:
+                actor.delete()
+                actors = Actor.query.all()
+                current_actors = paginate(actors)
+                return jsonify({
+                    'success': True,
+                    'deleted': actor_id,
+                    'total_actors': len(actors),
+                    'actors': current_actors
+                })
+            except Exception:
+                abort(422)
+        else:
+            body = request.get_json()
+            new_name = body.get("name", None)
+            actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+            if new_name is not None:
+                actor.name = new_name
+                actor.insert()
+            else:
+                abort(400)
+
             actors = Actor.query.all()
-            current_actors = paginate(actors)
             return jsonify({
                 'success': True,
-                'deleted': actor_id,
-                'total_actors': len(actors),
-                'actors': current_actors
+                'actors': format_results(actors)
             })
-        except Exception:
-            abort(422)
 
     @app.route('/movies', methods=['GET'])
     def get_movies():

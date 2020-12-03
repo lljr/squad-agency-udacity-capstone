@@ -231,6 +231,27 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
 
+    def test_updating_actor(self):
+        # Setup
+        actor = Actor(**self.new_actor)
+        actor.insert()
+
+        res = self.client().patch('/actors/1', json={
+            'name': 'Bobi'
+        })
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(len(data['actors']))
+
+    def test_400_bad_request_sent_updating_actor(self):
+        res = self.client().patch('/actors/1', json={})
+        self.assertEqual(res.status_code, 400)
+
+    def test_updating_movie(self):
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()
