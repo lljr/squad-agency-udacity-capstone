@@ -191,6 +191,46 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
 
+    def test_delete_movie_related_to_actor(self):
+        # Setup
+        actor = Actor(**self.new_actor)
+
+        movie = Movie(**self.new_movie)
+        movie.insert()
+
+        actor.movies.append(movie)
+        actor.insert()
+
+        self.assertEqual(len(actor.movies), 1)
+
+        res = self.client().delete('/actors/1/movies/1')
+        data = json.loads(res.data)
+
+        actor_without_movies = Actor.query.get(1)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], 1)
+        self.assertEqual(len(actor_without_movies.movies), 0)
+        self.assertTrue(len(data['movies']))
+        self.assertTrue(data['total_movies'])
+
+    def test_404_deleting_non_existing_movie(self):
+        actor = Actor(**self.new_actor)
+        actor.insert()
+
+        res = self.client().delete('actors/1/movies/9999')
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
+    def test_404_attempt_to_delete_non_existing_actor_with_movie(self):
+        res = self.client().delete('actors/99999/movies/1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -36,11 +36,10 @@ def create_app(test_config=None):
     if test_config is None:
         app.config.from_pyfile('config.py', silent=False)
     else:
-        app.config.from_mapping(
-            SECRET_KEY='dev',
-            SQLALCHEMY_DATABASE_URI=TEST_DB_URI,
-            SQLALCHEMY_TRACK_MODIFICATIONS=False,
-            DEBUG=True)
+        app.config.from_mapping(SECRET_KEY='dev',
+                                SQLALCHEMY_DATABASE_URI=TEST_DB_URI,
+                                SQLALCHEMY_TRACK_MODIFICATIONS=False,
+                                DEBUG=True)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -92,9 +91,7 @@ def create_app(test_config=None):
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     def delete_actor(actor_id):
-        actor = Actor.query.filter(
-            Actor.id == actor_id
-        ).one_or_none()
+        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
         if actor is None:
             abort(404)
 
@@ -159,6 +156,26 @@ def create_app(test_config=None):
                 'movies': formatted_movies,
                 'total_movies': len(formatted_movies)
             })
+
+    @app.route('/actors/<int:actor_id>/movies/<int:movie_id>',
+               methods=['DELETE'])
+    def delete_movie_from_actor(actor_id, movie_id):
+        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+        if actor is None:
+            abort(404)
+        movie_to_del = Movie.query.filter(Movie.id == movie_id).one_or_none()
+        if movie_to_del is None:
+            abort(404)
+        actor.movies.remove(movie_to_del)
+        db.session.commit()
+
+        movies = Movie.query.all()
+        return jsonify({
+            'success': True,
+            'deleted': movie_id,
+            'movies': format_results(movies),
+            'total_movies': len(movies)
+        })
 
     # ==== Error Handling =======
     @app.errorhandler(422)
