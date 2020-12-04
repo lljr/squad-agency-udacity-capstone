@@ -1,0 +1,37 @@
+-*- mode: org; coding: utf-8; -*-
+
+* Casting Agency Specifications
+    The Casting Agency models a company that is responsible for
+    creating movies and managing and assigning actors to those
+    movies. You are an Executive Producer within the company and are
+    creating a system to simplify and streamline your process.
+
+** Models [2/2]
+   - [X] Movies with attributes title and release date
+   - [X] Actors with attributes name, age and gender
+
+** Endpoints [8/8]
+ - [X] GET /actors and /movies
+ - [X] POST /actors
+ - [X] DELETE /actors/<actor_id>
+ - [X] GET /actors/<actor_id>/movies
+ - [X] POST /actors/<actor_id>/movies
+ - [X] DELETE /actors/<actor_id>/movies/<movie_id>
+ - [X] PATCH /actors/<actor_id>
+ - [X] PATCH /movies/<movie_id>
+
+** Roles [3/3]
+ - [X] Casting Assistant
+ - [X] Can view actors and movies
+ - [X] Casting Director
+   - [X] All permissions a Casting Assistant has and…
+     - [X] Add or delete an actor from the database
+     - [X] Modify actors or movies
+   - [X] Executive Producer
+     - [X] All permissions a Casting Director has and…
+     - [X] Add or delete a movie from the database
+
+** Tests [2/3]
+ - [X] One test for success behavior of each endpoint
+ - [X] One test for error behavior of each endpoint
+ - [ ] At least two tests of RBAC for each role
