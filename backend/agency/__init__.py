@@ -124,6 +124,27 @@ def create_app(test_config=None):
                 'actors': format_results(actors)
             })
 
+    @app.route('/movies/<int:movie_id>', methods=['PATCH'])
+    def update_movie(movie_id):
+        movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
+        if movie is None:
+            abort(404)
+
+        body = request.get_json()
+        new_title = body.get("title", None)
+
+        if new_title is not None:
+            movie.title = new_title
+            movie.insert()
+        else:
+            abort(400)
+
+        movies = Movie.query.all()
+        return jsonify({
+            'success': True,
+            'movies': format_results(movies)
+        })
+
     @app.route('/movies', methods=['GET'])
     def get_movies():
         movies = Movie.query.all()

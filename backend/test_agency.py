@@ -245,12 +245,41 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(len(data['actors']))
 
+        updated_actor = Actor.query.get(1)
+        self.assertEqual(updated_actor.name, 'Bobi')
+
     def test_400_bad_request_sent_updating_actor(self):
         res = self.client().patch('/actors/1', json={})
         self.assertEqual(res.status_code, 400)
 
     def test_updating_movie(self):
-        pass
+        movie = Movie(**self.new_movie)
+        movie.insert()
+
+        res = self.client().patch('/movies/1', json={'title': 'new title'})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(len(data['movies']))
+
+        updated_movie = Movie.query.get(1)
+        self.assertEqual(updated_movie.title, 'new title')
+
+    def test_404_update_non_existing_movie(self):
+        res = self.client().patch('/movies/9999', json={'title': 'new'})
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
+    def test_400_bad_request_sent_updating_movie(self):
+        movie = Movie(**self.new_movie)
+        movie.insert()
+
+        res = self.client().patch('/movies/1', json={})
+        self.assertEqual(res.status_code, 400)
 
 
 if __name__ == "__main__":
