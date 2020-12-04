@@ -32,6 +32,7 @@ In a virtual environment:
 ** Models [2/2]
    - [X] Movies with attributes title and release date
    - [X] Actors with attributes name, age and gender
+
 ** Endpoints [8/8]
  - [X] GET /actors and /movies
  - [X] POST /actors
@@ -52,6 +53,7 @@ In a virtual environment:
    - [X] Executive Producer
      - [X] All permissions a Casting Director has and…
      - [X] Add or delete a movie from the database
+
 ** Tests [2/3]
  - [X] One test for success behavior of each endpoint
  - [X] One test for error behavior of each endpoint
