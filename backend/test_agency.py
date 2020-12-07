@@ -30,9 +30,16 @@ class AgencyTestCase(unittest.TestCase):
         self.new_movie = mock_movies[0]
 
         # Auth tokens
-        self.assistant = os.environ['ASSISTANT_TOKEN']
-        self.director = os.environ['DIRECTOR_TOKEN']
-        self.producer = os.environ['PRODUCER_TOKEN']
+        self.assistant = os.environ.get('ASSISTANT_TOKEN', None)
+        if self.assistant is None:
+            print("ASSISTANT_TOKEN environment variable not set.")
+            sys.exit()
+        self.director = os.environ.get('DIRECTOR_TOKEN', None)
+        if self.director is None:
+            print("DIRECTOR_TOKEN environment variable not set.")
+        self.producer = os.environ.get('PRODUCER_TOKEN', None)
+        if self.producer is None:
+            print("PRODUCER_TOKEN environment variable not set.")
 
     def tearDown(self):
         with self.app.app_context():
