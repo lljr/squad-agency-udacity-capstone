@@ -22,3 +22,12 @@ In a virtual environment:
 *** Migrate the database
     After setting ~FLASK_APP=agency~ run ~flask db init~ then ~flask db migrate~
     and finally ~flask db upgrade~ to apply the migration.
+
+*** Run tests
+    After setting the database
+
+    1. Assign user tokens as environment variables
+       - ASSISTANT_TOKEN
+       - DIRECTOR_TOKEN
+       - PRODUCER_TOKEN
+    2. Run test with ~python3 test_agency.py~
