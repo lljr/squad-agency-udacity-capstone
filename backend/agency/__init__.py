@@ -157,42 +157,44 @@ def create_app(test_config=None):
             'total_movies': len(movies)
         })
 
-    @app.route('/actors/<int:actor_id>/movies', methods=['GET', 'POST'])
+    @app.route('/actors/<int:actor_id>/movies', methods=['GET'])
+    @requires_auth('get:movies')
     def get_actor_movies(actor_id):
-        if request.method == 'GET':
-            actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-            if actor is None:
-                abort(404)
-            formatted_movies = format_results(actor.movies)
-            return jsonify({
-                'success': True,
-                'total_movies': len(formatted_movies),
-                'actor': actor.id,
-                'movies': formatted_movies,
-            })
-        else:
-            body = request.get_json()
-            new_title = body.get('title', None)
-            new_release_date = body.get('release_date', None)
-            try:
-                movie = Movie(title=new_title, release_date=new_release_date)
-                movie.insert()
-            except Exception:
-                abort(422)
+        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+        if actor is None:
+            abort(404)
+        formatted_movies = format_results(actor.movies)
+        return jsonify({
+            'success': True,
+            'total_movies': len(formatted_movies),
+            'actor': actor.id,
+            'movies': formatted_movies,
+        })
 
-            actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
-            if actor is None:
-                abort(404)
-            actor.movies.append(movie)
-            actor.insert()
+    @app.route('/actors/<int:actor_id>/movies', methods=['POST'])
+    def post_actor_movies(actor_id):
+        body = request.get_json()
+        new_title = body.get('title', None)
+        new_release_date = body.get('release_date', None)
+        try:
+            movie = Movie(title=new_title, release_date=new_release_date)
+            movie.insert()
+        except Exception:
+            abort(422)
 
-            formatted_movies = format_results(actor.movies)
-            return jsonify({
-                'success': True,
-                'created': movie.id,
-                'movies': formatted_movies,
-                'total_movies': len(formatted_movies)
-            })
+        actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
+        if actor is None:
+            abort(404)
+        actor.movies.append(movie)
+        actor.insert()
+
+        formatted_movies = format_results(actor.movies)
+        return jsonify({
+            'success': True,
+            'created': movie.id,
+            'movies': formatted_movies,
+            'total_movies': len(formatted_movies)
+        })
 
     @app.route('/actors/<int:actor_id>/movies/<int:movie_id>',
                methods=['DELETE'])
