@@ -1,5 +1,7 @@
 import unittest
 import json
+import os
+import sys
 from agency import create_app, PAGINATION_SIZE
 from mock_data import mock_actors, mock_movies
 from agency.models import db, Actor, Movie
@@ -26,6 +28,11 @@ class AgencyTestCase(unittest.TestCase):
 
         self.new_actor = mock_actors[0]
         self.new_movie = mock_movies[0]
+
+        # Auth tokens
+        self.assistant = os.environ['ASSISTANT_TOKEN']
+        self.director = os.environ['DIRECTOR_TOKEN']
+        self.producer = os.environ['PRODUCER_TOKEN']
 
     def tearDown(self):
         with self.app.app_context():
