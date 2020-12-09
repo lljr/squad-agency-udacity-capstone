@@ -263,9 +263,7 @@ class AgencyTestCase(unittest.TestCase):
         actor = Actor(**self.new_actor)
         actor.insert()
 
-        res = self.client().patch('/actors/1', json={
-            'name': 'Bobi'
-        })
+        res = self.client().patch('/actors/1', json={'name': 'Bobi'})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
