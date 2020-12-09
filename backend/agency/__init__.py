@@ -172,7 +172,8 @@ def create_app(test_config=None):
         })
 
     @app.route('/actors/<int:actor_id>/movies', methods=['POST'])
-    def post_actor_movies(actor_id):
+    @requires_auth('post:movies')
+    def post_actor_movies(jwt, actor_id):
         body = request.get_json()
         new_title = body.get('title', None)
         new_release_date = body.get('release_date', None)
