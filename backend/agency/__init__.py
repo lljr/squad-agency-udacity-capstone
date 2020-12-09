@@ -159,7 +159,7 @@ def create_app(test_config=None):
 
     @app.route('/actors/<int:actor_id>/movies', methods=['GET'])
     @requires_auth('get:movies')
-    def get_actor_movies(actor_id):
+    def get_actor_movies(jwt, actor_id):
         actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
         if actor is None:
             abort(404)
