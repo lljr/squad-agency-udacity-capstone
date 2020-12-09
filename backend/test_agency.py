@@ -153,7 +153,10 @@ class AgencyTestCase(unittest.TestCase):
         actor.movies.append(movie)
         db.session.commit()
 
-        res = self.client().get('/actors/1/movies', json=self.new_movie)
+        res = self.client().get(
+            '/actors/1/movies',
+            headers={'Authorization': f"Bearer {ASSISTANT_TOKEN}"},
+            json=self.new_movie)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -164,7 +167,9 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_get_non_existing_actor_movies(self):
         # Set up
-        res = self.client().get('/actors/99999/movies')
+        res = self.client().get(
+            '/actors/99999/movies',
+            headers={'Authorization': f"Bearer {ASSISTANT_TOKEN}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -174,7 +179,10 @@ class AgencyTestCase(unittest.TestCase):
         actor = Actor(**self.new_actor)
         actor.insert()
 
-        res = self.client().post('actors/1/movies', json=self.new_movie)
+        res = self.client().post(
+            'actors/1/movies',
+            json=self.new_movie,
+            headers={'Authorization': f"Bearer {PRODUCER_TOKEN}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -184,7 +192,11 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['total_movies'], 1)
 
     def test_404_creating_movie_on_non_existing_actor(self):
-        res = self.client().post('/actors/9999/movies', json=self.new_movie)
+        res = self.client().post('/actors/9999/movies',
+                                 json=self.new_movie,
+                                 headers={
+                                     'Authorization': f"Bearer {PRODUCER_TOKEN}"
+                                 })
         data = json.loads(res.data)
 
         self.assertEqual(data['success'], False)
@@ -194,10 +206,13 @@ class AgencyTestCase(unittest.TestCase):
         actor = Actor(**self.new_actor)
         actor.insert()
 
-        res = self.client().post('actors/1/movies', json={
-            'title': 'A title',
-            'release_date': 83223
-        })
+        res = self.client().post(
+            'actors/1/movies',
+            json={
+                'title': 'A title',
+                'release_date': 83223
+            },
+            headers={'Authorization': f"Bearer {PRODUCER_TOKEN}"})
 
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
@@ -292,6 +307,15 @@ class AgencyTestCase(unittest.TestCase):
 
         res = self.client().patch('/movies/1', json={})
         self.assertEqual(res.status_code, 400)
+
+    # def test_assistant_cannot_create_new_actor(self):
+    #     res = self.client().post(
+    #         '/actors',
+    #         json=self.new_actor,
+    #         headers={'Authorization': f"Bearer {ASSISTANT_TOKEN}"})
+    #     data = json.loads(res.data)
+    #     self.assertEqual(res.status_code, 403)
+    #     self.assertEqual(data['code'], 'unauthorized')
 
 
 if __name__ == "__main__":
