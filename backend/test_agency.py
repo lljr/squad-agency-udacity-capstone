@@ -126,9 +126,7 @@ class AgencyTestCase(unittest.TestCase):
         res = self.client().delete('/actors/1')
         data = json.loads(res.data)
 
-        deleted_actor = Actor.query.filter(
-            Actor.id == 1
-        ).one_or_none()
+        deleted_actor = Actor.query.filter(Actor.id == 1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
