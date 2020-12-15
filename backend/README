@@ -31,3 +31,55 @@ In a virtual environment:
        - DIRECTOR_TOKEN
        - PRODUCER_TOKEN
     2. Run test with ~python3 test_agency.py~
+
+
+
+* API Documentation
+
+** Endpoints
+
+*** GET /actors
+    Fetches a dictionary of movies.
+    - Request Arguments: None
+    - Result: A list of movies in JSON format.
+
+**** Example
+ #+begin_src shell
+ curl http://127.0.0.1:5000/movies
+ #+end_src
+
+
+*** POST /actors
+
+*** DELETE /actors/<int:actor_id>
+
+*** PATCH /actors/<int:actor_id>
+
+*** PATCH /movies/<int:movie_id>
+
+*** GET /movies
+
+*** GET /actors/<int:actor_id>/movies
+
+*** POST /actors/<int:actor_id>/movies
+
+*** DELETE /actors/<int:actor_id>/movies/<int:movie_id>
+
+** Error Handling
+   Error sare returned as JSON objects in the following format:
+#+begin_src json
+{
+    "success" False,
+    "error": 404,
+    "message": "Not found"
+}
+#+end_src
+
+The API will return four error types when requests fail
+- 400: Bad Request
+- 404: Not Found
+- 422: Unprocessable
+- 401: Unauthorized
+- 405: Method Not Allowed
+- 403: Permission Does Not Exist
+- 500: Internal Server Error
