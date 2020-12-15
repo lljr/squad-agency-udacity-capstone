@@ -48,7 +48,6 @@ In a virtual environment:
  curl http://127.0.0.1:5000/movies
  #+end_src
 
-
 *** POST /actors
 
 *** DELETE /actors/<int:actor_id>
