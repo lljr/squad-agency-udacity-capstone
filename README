@@ -1,0 +1,18 @@
+-*- mode: org; coding: utf-8; -*-
+
+* Casting Agency Specifications
+    The Casting Agency models a company that is responsible for
+    creating movies and managing and assigning actors to those
+    movies. You are an Executive Producer within the company and are
+    creating a system to simplify and streamline your process.
+
+* Roles
+  - Assistant: Can view actors and movies
+  - Director: Same as assistant but can create actors
+  - Producer: Has all permissions
+
+* Authentication
+  Managed through Auth0 Universal Login Format
+
+* Frontend
+  Powered by EmberJS
