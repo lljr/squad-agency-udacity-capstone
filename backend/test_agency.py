@@ -6,10 +6,27 @@ from agency import create_app, PAGINATION_SIZE
 from mock_data import mock_actors, mock_movies
 from agency.models import db, Actor, Movie
 
+# TODO Insert fresh tokens
+
+# Auth tokens
+ASSISTANT_TOKEN = os.environ.get('ASSISTANT_TOKEN', None)
+if ASSISTANT_TOKEN is None:
+    print("ASSISTANT_TOKEN environment variable not set.")
+    sys.exit()
+
+DIRECTOR_TOKEN = os.environ.get('DIRECTOR_TOKEN', None)
+if DIRECTOR_TOKEN is None:
+    print("DIRECTOR_TOKEN environment variable not set.")
+    sys.exit()
+
+PRODUCER_TOKEN = os.environ.get('PRODUCER_TOKEN', None)
+if PRODUCER_TOKEN is None:
+    print("PRODUCER_TOKEN environment variable not set.")
+    sys.exit()
+
 
 class AgencyTestCase(unittest.TestCase):
     """This class represents the test cases for Agency."""
-
     def setUp(self):
         self.app = create_app(test_config=True)
         self.client = self.app.test_client
@@ -28,18 +45,6 @@ class AgencyTestCase(unittest.TestCase):
 
         self.new_actor = mock_actors[0]
         self.new_movie = mock_movies[0]
-
-        # Auth tokens
-        self.assistant = os.environ.get('ASSISTANT_TOKEN', None)
-        if self.assistant is None:
-            print("ASSISTANT_TOKEN environment variable not set.")
-            sys.exit()
-        self.director = os.environ.get('DIRECTOR_TOKEN', None)
-        if self.director is None:
-            print("DIRECTOR_TOKEN environment variable not set.")
-        self.producer = os.environ.get('PRODUCER_TOKEN', None)
-        if self.producer is None:
-            print("PRODUCER_TOKEN environment variable not set.")
 
     def tearDown(self):
         with self.app.app_context():
@@ -99,7 +104,11 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
 
     def test_create_new_actor(self):
-        res = self.client().post('/actors', json=self.new_actor)
+        res = self.client().post('/actors',
+                                 json=self.new_actor,
+                                 headers={
+                                     'Authorization': f"Bearer {DIRECTOR_TOKEN}"
+                                 })
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -109,11 +118,15 @@ class AgencyTestCase(unittest.TestCase):
         self.assertTrue(data['total_actors'])
 
     def test_422_create_actor_fails(self):
-        res = self.client().post('/actors', json={
-            'name': 'Pete',
-            'age': 33,
-            'gender': 23,
-        })
+        res = self.client().post('/actors',
+                                 json={
+                                     'name': 'Pete',
+                                     'age': 33,
+                                     'gender': 23,
+                                 },
+                                 headers={
+                                     'Authorization': f"Bearer {DIRECTOR_TOKEN}"
+                                 })
 
         # data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
@@ -176,6 +189,7 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
 
     def test_create_new_movie(self):
+        # NOTE: Indirectly tests PRODUCER role
         actor = Actor(**self.new_actor)
         actor.insert()
 
@@ -192,6 +206,7 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(data['total_movies'], 1)
 
     def test_404_creating_movie_on_non_existing_actor(self):
+        # NOTE: Indirectly tests PRODUCER role
         res = self.client().post('/actors/9999/movies',
                                  json=self.new_movie,
                                  headers={
@@ -306,14 +321,29 @@ class AgencyTestCase(unittest.TestCase):
         res = self.client().patch('/movies/1', json={})
         self.assertEqual(res.status_code, 400)
 
-    # def test_assistant_cannot_create_new_actor(self):
-    #     res = self.client().post(
-    #         '/actors',
-    #         json=self.new_actor,
-    #         headers={'Authorization': f"Bearer {ASSISTANT_TOKEN}"})
-    #     data = json.loads(res.data)
-    #     self.assertEqual(res.status_code, 403)
-    #     self.assertEqual(data['code'], 'unauthorized')
+    def test_assistant_cannot_create_new_actor(self):
+        res = self.client().post(
+            '/actors',
+            json=self.new_actor,
+            headers={'Authorization': f"Bearer {ASSISTANT_TOKEN}"})
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['code'], 'unauthorized')
+
+    def test_director_cannot_create_new_movie(self):
+        actor = Actor(**self.new_actor)
+        actor.insert()
+
+        res = self.client().post(
+            '/actors/1/movies',
+            json=self.new_movie,
+            headers={'Authorization': f"Bearer {DIRECTOR_TOKEN}"}
+        )
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data['code'], 'unauthorized')
 
 
 if __name__ == "__main__":
